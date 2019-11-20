@@ -3,12 +3,20 @@ import simpy
 
 def main(tijd):
     env = simpy.Environment()
-    kruispunt = simpy.Resource(env, capacity=1)
+    kruispunt = simpy.Resource(env, capacity=2)
 
     TL = TrafficLight(env)
 
-    car0 = Car(env, TL, kruispunt, "ThijsAuto")
-    car1 = Car(env, TL, kruispunt, "FreekAuto")
+    car0 = Car(env, TL, kruispunt, "Thijs", duurOp=10)
+    car1 = Car(env, TL, kruispunt, "Freek", duurOp=9)
+    car1 = Car(env, TL, kruispunt, "Casper", duurOp=8)
+    # car3 = Car(env, TL, kruispunt, "Stan", duurOp=4)
+    # car4 = Car(env, TL, kruispunt, "Lucas", duurOp=5)
+    # car5 = Car(env, TL, kruispunt, "Helez", duurOp=6)
+    # car6 = Car(env, TL, kruispunt, "Stijn", duurOp=7)
+    # car7 = Car(env, TL, kruispunt, "Tom", duurOp=8)
+    # car8 = Car(env, TL, kruispunt, "Reinier", duurOp=9)
+    # car9 = Car(env, TL, kruispunt, "David", duurOp=10)
 
     env.run(until=tijd)
     print(f"Simulation gestopt op: {tijd}")
@@ -44,14 +52,13 @@ class TrafficLight(object):
 
 
 class Car(object):
-    def __init__(self, env, other, kruispunt, name, duurOp=5, duurAf=11):
+    def __init__(self, env, other, kruispunt, name, duurOp=5):
         self.env = env
         self.other = other
         self.kruispunt = kruispunt
         self.name = name
 
         self.duurOp = duurOp
-        self.duurAf = duurAf
         self.action = env.process(self.run())
 
     def run(self):
@@ -62,6 +69,7 @@ class Car(object):
                 if self.other.staat:
                     print(f"\x1b[0m\t{self.name} op kruispunt vanaf {self.env.now} tot {self.env.now + self.duurOp}")
                     yield self.env.process(self.rijtijd(self.duurOp))  # Rijden voor self.duur seconden
+                    print(f"\x1b[0m\t{self.name} tot {self.env.now} op kruispunt")
                 else:
                     # print("Kruispunt leeg")
                     yield self.env.process(self.rijtijd(1))  # Iedere seconde checken
