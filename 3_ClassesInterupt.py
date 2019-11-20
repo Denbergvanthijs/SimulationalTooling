@@ -53,9 +53,10 @@ class Car(object):
             try:
                 if self.other.staat:
                     print(f"\x1b[0mRijden:{self.env.now:>20}")
-                    yield self.env.process(self.rijtijd(self.duur))
+                    yield self.env.process(self.rijtijd(self.duur))  # Rijden voor self.duur seconden
                 else:
-                    yield self.env.process(self.rijtijd(self.duur))
+                    # print("Nog niet rijden", end="")
+                    yield self.env.process(self.rijtijd(1))  # Iedere seconde checken
             except simpy.Interrupt:
                 pass
 
