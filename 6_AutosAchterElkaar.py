@@ -58,6 +58,7 @@ class Car(object):
         self.other = other  # Object van stoplicht
         self.wachtrij = wachtrij  # De file waar iedere auto achteraan aansluit. self.env.now wordt groter in de file
         self.name = name  # Naam van de auto
+        self.lifes = 3
 
         self.duurOp = duurOp  # Duur dat een auto op het kruispunt is
         self.action = env.process(self.run())
@@ -75,7 +76,11 @@ class Car(object):
 
                     if not self.other.staat[0] and (self.env.now - self.other.staat[1]) > self.other.grens:  # if rood
                         print(f"\x1b[0;31m\t{self.name}\x1b[0m tot \x1b[0;31m{self.env.now}\x1b[0m op kruispunt")
-                        break  # Stop de while-loop voor deze auto, deze auto wordt nooit meer uitgevoerd
+                        self.lifes = self.lifes - 1
+                        print(f" {self.name} heeft nog {self.lifes} leven(s) over")
+                        if self.lifes == 0:
+                            print('en valt dus af')
+                            break  # Stop de while-loop voor deze auto, deze auto wordt nooit meer uitgevoerd
                     else:
                         print(f"\x1b[0m\t{self.name} tot {self.env.now} op kruispunt")
                 else:
@@ -89,4 +94,4 @@ class Car(object):
 
 
 if __name__ == '__main__':
-    main(240)
+    main(500)
