@@ -22,4 +22,4 @@ tegelijk oversteken dan in de `wachtrij` is gedefinieerd. Zodra een auto is over
 de wachtrij een plekje op.
 
 ## Bronvermelding:
-- [https://simpy.readthedocs.io/en/latest/simpy_intro/process_interaction.html]
+- [ReadTheDocs](https://simpy.readthedocs.io/en/latest/simpy_intro/process_interaction.html)
